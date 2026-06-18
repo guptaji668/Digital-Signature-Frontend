@@ -14,7 +14,7 @@ import { api, ApiError } from '../../../../lib/api';
 function DocumentDetail() {
   const { id } = useParams();
   const searchParams = useSearchParams();
-  const [document, setDocument] = useState(null);
+  const [doc, setDoc] = useState(null);
   const [auditLogs, setAuditLogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -28,7 +28,7 @@ function DocumentDetail() {
           api.documents.get(id),
           api.verification.getAuditLogs(id),
         ]);
-        setDocument(docRes.data);
+        setDoc(docRes.data);
         setAuditLogs(auditRes.data.logs);
       } catch (err) {
         setError(err instanceof ApiError ? err.message : 'Failed to load document');
@@ -40,23 +40,30 @@ function DocumentDetail() {
   }, [id]);
 
   const handleDownload = async (type = 'signed') => {
-    const token = localStorage.getItem('token');
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/documents/${id}/download?type=${type}`;
-    const response = await fetch(url, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const blob = await response.blob();
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = document.original_filename;
-    link.click();
+    try {
+      const token = localStorage.getItem('token');
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+      const url = `${apiUrl}/documents/${id}/download?type=${type}`;
+      const response = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!response.ok) throw new Error('Download failed');
+      const blob = await response.blob();
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = doc.original_filename;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    } catch {
+      setError('Failed to download PDF');
+    }
   };
 
   if (loading) {
     return <div className="flex justify-center py-20"><LoadingSpinner size="lg" /></div>;
   }
 
-  if (!document) {
+  if (!doc) {
     return <Alert message="Document not found" />;
   }
 
@@ -67,8 +74,8 @@ function DocumentDetail() {
           &larr; Back to Dashboard
         </Link>
         <div className="flex items-center gap-3 mt-2">
-          <h1 className="text-2xl font-bold text-gray-900">{document.title}</h1>
-          <StatusBadge status={document.status} />
+          <h1 className="text-2xl font-bold text-gray-900">{doc.title}</h1>
+          <StatusBadge status={doc.status} />
         </div>
       </div>
 
@@ -86,7 +93,7 @@ function DocumentDetail() {
           <div className="card p-0 overflow-hidden">
             <PdfPreview
               documentId={id}
-              type={document.status === 'signed' ? 'signed' : 'original'}
+              type={doc.status === 'signed' ? 'signed' : 'original'}
               className="h-[600px]"
             />
           </div>
@@ -98,31 +105,31 @@ function DocumentDetail() {
             <dl className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <dt className="text-gray-600">File</dt>
-                <dd className="font-medium truncate ml-4">{document.original_filename}</dd>
+                <dd className="font-medium truncate ml-4">{doc.original_filename}</dd>
               </div>
               <div className="flex justify-between">
                 <dt className="text-gray-600">Pages</dt>
-                <dd className="font-medium">{document.page_count}</dd>
+                <dd className="font-medium">{doc.page_count}</dd>
               </div>
               <div className="flex justify-between">
                 <dt className="text-gray-600">Created</dt>
-                <dd className="font-medium">{new Date(document.created_at).toLocaleDateString()}</dd>
+                <dd className="font-medium">{new Date(doc.created_at).toLocaleDateString()}</dd>
               </div>
-              {document.verification_code && (
+              {doc.verification_code && (
                 <div className="flex justify-between">
                   <dt className="text-gray-600">Verification Code</dt>
-                  <dd className="font-mono text-xs">{document.verification_code}</dd>
+                  <dd className="font-mono text-xs">{doc.verification_code}</dd>
                 </div>
               )}
             </dl>
 
             <div className="mt-4 flex flex-col gap-2">
-              {document.status === 'draft' && (
+              {doc.status === 'draft' && (
                 <Link href={`/dashboard/documents/${id}/sign`} className="btn-primary text-center">
                   Continue Signing
                 </Link>
               )}
-              {document.status === 'signed' && (
+              {doc.status === 'signed' && (
                 <button onClick={() => handleDownload('signed')} className="btn-primary">
                   Download Signed PDF
                 </button>
