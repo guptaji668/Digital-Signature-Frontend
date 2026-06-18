@@ -68,13 +68,13 @@ function DocumentDetail() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
       <div className="mb-6">
         <Link href="/dashboard" className="text-sm text-primary-600 hover:text-primary-700">
           &larr; Back to Dashboard
         </Link>
-        <div className="flex items-center gap-3 mt-2">
-          <h1 className="text-2xl font-bold text-gray-900">{doc.title}</h1>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mt-2">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 break-words">{doc.title}</h1>
           <StatusBadge status={doc.status} />
         </div>
       </div>
@@ -94,7 +94,7 @@ function DocumentDetail() {
             <PdfPreview
               documentId={id}
               type={doc.status === 'signed' ? 'signed' : 'original'}
-              className="h-[600px]"
+              className="h-[50vh] sm:h-[500px] lg:h-[600px] min-h-[280px]"
             />
           </div>
         </div>
@@ -102,23 +102,23 @@ function DocumentDetail() {
         <div className="space-y-6">
           <div className="card">
             <h2 className="font-semibold text-gray-900 mb-4">Document Info</h2>
-            <dl className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <dt className="text-gray-600">File</dt>
-                <dd className="font-medium truncate ml-4">{doc.original_filename}</dd>
+            <dl className="space-y-3 text-sm">
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                <dt className="text-gray-600 shrink-0">File</dt>
+                <dd className="font-medium break-all sm:text-right">{doc.original_filename}</dd>
               </div>
-              <div className="flex justify-between">
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                 <dt className="text-gray-600">Pages</dt>
-                <dd className="font-medium">{doc.page_count}</dd>
+                <dd className="font-medium sm:text-right">{doc.page_count}</dd>
               </div>
-              <div className="flex justify-between">
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                 <dt className="text-gray-600">Created</dt>
-                <dd className="font-medium">{new Date(doc.created_at).toLocaleDateString()}</dd>
+                <dd className="font-medium sm:text-right">{new Date(doc.created_at).toLocaleDateString()}</dd>
               </div>
               {doc.verification_code && (
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                   <dt className="text-gray-600">Verification Code</dt>
-                  <dd className="font-mono text-xs">{doc.verification_code}</dd>
+                  <dd className="font-mono text-xs break-all sm:text-right">{doc.verification_code}</dd>
                 </div>
               )}
             </dl>

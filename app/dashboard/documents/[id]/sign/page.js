@@ -14,7 +14,7 @@ import { api, ApiError } from '../../../../../lib/api';
 
 const PdfSigningPreview = dynamic(
   () => import('../../../../../components/documents/PdfSigningPreview'),
-  { ssr: false, loading: () => <div className="h-[600px] flex items-center justify-center"><LoadingSpinner size="lg" /></div> }
+  { ssr: false, loading: () => <div className="h-[50vh] sm:h-[500px] lg:h-[600px] min-h-[280px] flex items-center justify-center"><LoadingSpinner size="lg" /></div> }
 );
 
 export default function SignDocumentPage() {
@@ -141,12 +141,12 @@ export default function SignDocumentPage() {
   return (
     <ClientLayout>
       <ProtectedRoute>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           <div className="mb-6">
             <Link href="/dashboard" className="text-sm text-primary-600 hover:text-primary-700">
               &larr; Back to Dashboard
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900 mt-2">Sign: {document?.title}</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mt-2 break-words">Sign: {document?.title}</h1>
           </div>
 
           <Alert message={error} onClose={() => setError('')} />
@@ -162,7 +162,7 @@ export default function SignDocumentPage() {
                   position={position}
                   placedSignatures={document?.signatures || []}
                   onPositionChange={setPosition}
-                  className="h-[600px]"
+                  className="h-[50vh] sm:h-[500px] lg:h-[600px] min-h-[280px]"
                 />
               </div>
             </div>

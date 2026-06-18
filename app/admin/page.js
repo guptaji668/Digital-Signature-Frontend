@@ -49,8 +49,8 @@ export default function AdminPage() {
   return (
     <ClientLayout>
       <ProtectedRoute adminOnly>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-8">Admin Dashboard</h1>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6 sm:mb-8">Admin Dashboard</h1>
 
           <Alert message={error} onClose={() => setError('')} />
 
@@ -91,78 +91,118 @@ export default function AdminPage() {
               )}
 
               {activeTab === 'users' && (
-                <div className="card overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b text-left">
-                        <th className="pb-3 font-medium text-gray-600">Name</th>
-                        <th className="pb-3 font-medium text-gray-600">Email</th>
-                        <th className="pb-3 font-medium text-gray-600">Role</th>
-                        <th className="pb-3 font-medium text-gray-600">Joined</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {users.map((user) => (
-                        <tr key={user.id} className="border-b last:border-0">
-                          <td className="py-3">{user.name}</td>
-                          <td className="py-3">{user.email}</td>
-                          <td className="py-3 capitalize">{user.role}</td>
-                          <td className="py-3">{new Date(user.created_at).toLocaleDateString()}</td>
+                <>
+                  <div className="md:hidden space-y-3">
+                    {users.map((user) => (
+                      <div key={user.id} className="card !p-4">
+                        <p className="font-medium text-gray-900">{user.name}</p>
+                        <p className="text-sm text-gray-600 break-all mt-1">{user.email}</p>
+                        <div className="flex justify-between items-center mt-2 text-sm">
+                          <span className="capitalize text-gray-500">{user.role}</span>
+                          <span className="text-gray-400">{new Date(user.created_at).toLocaleDateString()}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="hidden md:block card overflow-x-auto">
+                    <table className="w-full text-sm min-w-[500px]">
+                      <thead>
+                        <tr className="border-b text-left">
+                          <th className="pb-3 font-medium text-gray-600">Name</th>
+                          <th className="pb-3 font-medium text-gray-600">Email</th>
+                          <th className="pb-3 font-medium text-gray-600">Role</th>
+                          <th className="pb-3 font-medium text-gray-600">Joined</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {users.map((user) => (
+                          <tr key={user.id} className="border-b last:border-0">
+                            <td className="py-3">{user.name}</td>
+                            <td className="py-3">{user.email}</td>
+                            <td className="py-3 capitalize">{user.role}</td>
+                            <td className="py-3">{new Date(user.created_at).toLocaleDateString()}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
               )}
 
               {activeTab === 'documents' && (
-                <div className="card overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b text-left">
-                        <th className="pb-3 font-medium text-gray-600">Title</th>
-                        <th className="pb-3 font-medium text-gray-600">User</th>
-                        <th className="pb-3 font-medium text-gray-600">Status</th>
-                        <th className="pb-3 font-medium text-gray-600">Created</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {documents.map((doc) => (
-                        <tr key={doc.id} className="border-b last:border-0">
-                          <td className="py-3">{doc.title}</td>
-                          <td className="py-3">{doc.user_email}</td>
-                          <td className="py-3"><StatusBadge status={doc.status} /></td>
-                          <td className="py-3">{new Date(doc.created_at).toLocaleDateString()}</td>
+                <>
+                  <div className="md:hidden space-y-3">
+                    {documents.map((doc) => (
+                      <div key={doc.id} className="card !p-4">
+                        <div className="flex items-start justify-between gap-2">
+                          <p className="font-medium text-gray-900 break-words">{doc.title}</p>
+                          <StatusBadge status={doc.status} />
+                        </div>
+                        <p className="text-sm text-gray-600 break-all mt-1">{doc.user_email}</p>
+                        <p className="text-xs text-gray-400 mt-2">{new Date(doc.created_at).toLocaleDateString()}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="hidden md:block card overflow-x-auto">
+                    <table className="w-full text-sm min-w-[500px]">
+                      <thead>
+                        <tr className="border-b text-left">
+                          <th className="pb-3 font-medium text-gray-600">Title</th>
+                          <th className="pb-3 font-medium text-gray-600">User</th>
+                          <th className="pb-3 font-medium text-gray-600">Status</th>
+                          <th className="pb-3 font-medium text-gray-600">Created</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {documents.map((doc) => (
+                          <tr key={doc.id} className="border-b last:border-0">
+                            <td className="py-3">{doc.title}</td>
+                            <td className="py-3">{doc.user_email}</td>
+                            <td className="py-3"><StatusBadge status={doc.status} /></td>
+                            <td className="py-3">{new Date(doc.created_at).toLocaleDateString()}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
               )}
 
               {activeTab === 'audit' && (
-                <div className="card overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b text-left">
-                        <th className="pb-3 font-medium text-gray-600">Action</th>
-                        <th className="pb-3 font-medium text-gray-600">User</th>
-                        <th className="pb-3 font-medium text-gray-600">Document</th>
-                        <th className="pb-3 font-medium text-gray-600">Time</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {auditLogs.map((log) => (
-                        <tr key={log.id} className="border-b last:border-0">
-                          <td className="py-3">{log.action.replace(/_/g, ' ')}</td>
-                          <td className="py-3">{log.user_email || '—'}</td>
-                          <td className="py-3">{log.document_title || '—'}</td>
-                          <td className="py-3">{new Date(log.created_at).toLocaleString()}</td>
+                <>
+                  <div className="md:hidden space-y-3">
+                    {auditLogs.map((log) => (
+                      <div key={log.id} className="card !p-4">
+                        <p className="font-medium text-gray-900">{log.action.replace(/_/g, ' ')}</p>
+                        <p className="text-sm text-gray-600 mt-1">{log.user_email || '—'}</p>
+                        <p className="text-sm text-gray-500 break-words mt-1">{log.document_title || '—'}</p>
+                        <p className="text-xs text-gray-400 mt-2">{new Date(log.created_at).toLocaleString()}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="hidden md:block card overflow-x-auto">
+                    <table className="w-full text-sm min-w-[600px]">
+                      <thead>
+                        <tr className="border-b text-left">
+                          <th className="pb-3 font-medium text-gray-600">Action</th>
+                          <th className="pb-3 font-medium text-gray-600">User</th>
+                          <th className="pb-3 font-medium text-gray-600">Document</th>
+                          <th className="pb-3 font-medium text-gray-600">Time</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {auditLogs.map((log) => (
+                          <tr key={log.id} className="border-b last:border-0">
+                            <td className="py-3">{log.action.replace(/_/g, ' ')}</td>
+                            <td className="py-3">{log.user_email || '—'}</td>
+                            <td className="py-3">{log.document_title || '—'}</td>
+                            <td className="py-3">{new Date(log.created_at).toLocaleString()}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
               )}
             </>
           )}

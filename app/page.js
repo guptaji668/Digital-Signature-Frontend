@@ -5,7 +5,7 @@ export default function HomePage() {
   return (
     <ClientLayout>
       <section className="relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight">
               Sign Documents{' '}
@@ -24,7 +24,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="mt-20 grid md:grid-cols-3 gap-8">
+          <div className="mt-12 sm:mt-20 grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
                 title: 'Upload & Sign',
@@ -62,9 +62,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-primary-600 py-16">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-white">Ready to get started?</h2>
+      <section className="bg-primary-600 py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-xl sm:text-2xl font-bold text-white">Ready to get started?</h2>
           <p className="mt-2 text-primary-100">Create a free account and sign your first document in minutes.</p>
           <Link href="/register" className="mt-6 inline-block bg-white text-primary-600 font-medium px-8 py-3 rounded-lg hover:bg-primary-50 transition-colors">
             Create Account

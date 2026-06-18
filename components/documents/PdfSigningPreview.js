@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/TextLayer.css';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
@@ -44,6 +44,21 @@ export default function PdfSigningPreview({
   const [renderedSize, setRenderedSize] = useState({ width: 0, height: 0, pdfWidth: 0, pdfHeight: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [pageWidth, setPageWidth] = useState(560);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        const available = containerRef.current.clientWidth - 32;
+        setPageWidth(Math.min(Math.max(available, 260), 560));
+      }
+    };
+
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, [pdfData]);
 
   useEffect(() => {
     let objectUrl;
@@ -111,29 +126,29 @@ export default function PdfSigningPreview({
   }
 
   return (
-    <div className={`bg-gray-100 rounded-lg overflow-auto ${className}`}>
-      <div className="p-3 bg-white border-b border-gray-200 flex items-center justify-between text-sm">
+    <div className={`bg-gray-100 rounded-lg overflow-auto ${className}`} ref={containerRef}>
+      <div className="p-3 bg-white border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 text-sm">
         <span className="text-gray-600">
           Viewing page <strong>{pageNumber}</strong>
           {currentSignature && (
-            <span className="ml-2 text-primary-600">— Live preview active</span>
+            <span className="ml-0 sm:ml-2 text-primary-600 block sm:inline">— Live preview active</span>
           )}
         </span>
         {currentSignature && (
-          <span className="text-xs text-gray-500">Click on the page to position signature</span>
+          <span className="text-xs text-gray-500">Tap on the page to position signature</span>
         )}
       </div>
 
-      <div className="flex justify-center p-4 min-h-[500px]">
+      <div className="flex justify-center p-2 sm:p-4 min-h-[280px] sm:min-h-[500px]">
         <Document file={pdfData} loading={<LoadingSpinner />}>
           <div
-            className="relative inline-block shadow-md cursor-crosshair"
+            className="relative inline-block shadow-md cursor-crosshair max-w-full"
             onClick={handlePageClick}
             role="presentation"
           >
             <Page
               pageNumber={pageNumber}
-              width={560}
+              width={pageWidth}
               renderTextLayer={false}
               renderAnnotationLayer={false}
               onRenderSuccess={({ width, height, originalWidth, originalHeight }) => {

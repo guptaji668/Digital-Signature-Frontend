@@ -69,12 +69,12 @@ export default function SignaturesPage() {
   return (
     <ClientLayout>
       <ProtectedRoute>
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="mb-8">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          <div className="mb-6 sm:mb-8">
             <Link href="/dashboard" className="text-sm text-primary-600 hover:text-primary-700">
               &larr; Back to Dashboard
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900 mt-2">My Signatures</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mt-2">My Signatures</h1>
             <p className="text-sm text-gray-600 mt-1">Save signatures for quick reuse when signing documents</p>
           </div>
 
@@ -144,7 +144,7 @@ export default function SignaturesPage() {
             ) : signatures.length === 0 ? (
               <p className="text-sm text-gray-500">No saved signatures yet</p>
             ) : (
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {signatures.map((sig) => (
                   <div key={sig.id} className="border rounded-lg p-4">
                     <p className="font-medium text-gray-900 mb-2">{sig.name}</p>

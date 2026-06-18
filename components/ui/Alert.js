@@ -10,7 +10,7 @@ export default function Alert({ type = 'error', message, onClose }) {
   return (
     <div className={`rounded-lg border p-4 mb-4 ${styles[type]}`}>
       <div className="flex justify-between items-start">
-        <p className="text-sm">{message}</p>
+        <p className="text-sm break-words pr-2">{message}</p>
         {onClose && (
           <button onClick={onClose} className="ml-4 text-current opacity-60 hover:opacity-100">
             &times;

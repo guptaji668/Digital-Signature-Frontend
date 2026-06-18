@@ -29,10 +29,10 @@ export default function VerifyPage() {
 
   return (
     <ClientLayout>
-      <div className="max-w-2xl mx-auto px-4 py-12">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Verify Document</h1>
-          <p className="mt-2 text-gray-600">
+      <div className="max-w-2xl mx-auto px-4 py-8 sm:py-12">
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Verify Document</h1>
+          <p className="mt-2 text-sm sm:text-base text-gray-600 px-2">
             Enter the verification code from a signed document to confirm its authenticity
           </p>
         </div>
@@ -66,30 +66,30 @@ export default function VerifyPage() {
                 </svg>
                 <h3 className="text-lg font-semibold text-green-800">Document Verified</h3>
               </div>
-              <dl className="space-y-2 text-sm">
-                <div className="flex justify-between">
+              <dl className="space-y-3 text-sm">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                   <dt className="text-gray-600">Title</dt>
-                  <dd className="font-medium">{result.document.title}</dd>
+                  <dd className="font-medium break-words sm:text-right">{result.document.title}</dd>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                   <dt className="text-gray-600">File</dt>
-                  <dd className="font-medium">{result.document.originalFilename}</dd>
+                  <dd className="font-medium break-all sm:text-right">{result.document.originalFilename}</dd>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                   <dt className="text-gray-600">Status</dt>
-                  <dd className="font-medium capitalize">{result.document.status}</dd>
+                  <dd className="font-medium capitalize sm:text-right">{result.document.status}</dd>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                   <dt className="text-gray-600">Signed By</dt>
-                  <dd className="font-medium">{result.document.signer.name}</dd>
+                  <dd className="font-medium sm:text-right">{result.document.signer.name}</dd>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                   <dt className="text-gray-600">Signed At</dt>
-                  <dd className="font-medium">{new Date(result.document.signedAt).toLocaleString()}</dd>
+                  <dd className="font-medium sm:text-right">{new Date(result.document.signedAt).toLocaleString()}</dd>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                   <dt className="text-gray-600">Verification Code</dt>
-                  <dd className="font-mono text-xs">{result.document.verificationCode}</dd>
+                  <dd className="font-mono text-xs break-all sm:text-right">{result.document.verificationCode}</dd>
                 </div>
               </dl>
             </div>
